@@ -5,9 +5,19 @@
 			"referenceName": "SampleAzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"sheetname": {
+				"type": "string",
+				"defaultValue": "name1"
+			}
+		},
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": {
+				"value": "@dataset().sheetname",
+				"type": "Expression"
+			},
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "@item().name",
