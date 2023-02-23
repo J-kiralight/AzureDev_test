@@ -90,14 +90,20 @@
 									"referenceName": "ExcelFiles",
 									"type": "DatasetReference",
 									"parameters": {
-										"sheetname": "name1"
+										"sheetname": {
+											"value": "@item().itemName",
+											"type": "Expression"
+										}
 									}
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "AzureSqlTable1",
-									"type": "DatasetReference"
+									"referenceName": "Excelfile",
+									"type": "DatasetReference",
+									"parameters": {
+										"tablename": "table1"
+									}
 								}
 							]
 						}
