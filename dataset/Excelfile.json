@@ -1,0 +1,12 @@
+{
+	"name": "Excelfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SampleAzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
