@@ -47,7 +47,7 @@
 					},
 					"cases": [
 						{
-							"value": "Products.xlsx",
+							"value": "Products",
 							"activities": [
 								{
 									"name": "Copy data1",
