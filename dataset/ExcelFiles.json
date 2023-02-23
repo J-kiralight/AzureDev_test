@@ -20,7 +20,6 @@
 			},
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "@item().name",
 				"container": "test"
 			}
 		},
