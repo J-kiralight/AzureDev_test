@@ -20,7 +20,6 @@
 						"type": "DatasetReference"
 					},
 					"fieldList": [
-						"childItems",
 						"itemType"
 					],
 					"storeSettings": {
@@ -43,7 +42,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity(\"GetAllExcel\").output.childItems",
+						"value": "@activity('GetAllExcel').output.childItems",
 						"type": "Expression"
 					},
 					"activities": [
