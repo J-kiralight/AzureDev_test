@@ -96,14 +96,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Excelfile",
-									"type": "DatasetReference",
-									"parameters": {
-										"tablename": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "AzureSqlTable1",
+									"type": "DatasetReference"
 								}
 							]
 						}
