@@ -5,17 +5,8 @@
 			"referenceName": "SampleAzureSqlDatabase",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"TableName": {
-				"type": "string",
-				"defaultValue": "@item().name"
-			}
-		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "dbo"
-		}
+		"schema": []
 	}
 }
