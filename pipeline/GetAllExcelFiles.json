@@ -42,12 +42,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"on": {
-						"value": "@activity('GetAllExcel').output.itemName",
+						"value": "@activity('GetAllExcel').output.childItems[0].name",
 						"type": "Expression"
 					},
 					"cases": [
 						{
-							"value": "Products",
+							"value": "Products.csv",
 							"activities": [
 								{
 									"name": "Copy data1",
