@@ -91,7 +91,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"sheetname": {
-											"value": "@item().itemName",
+											"value": "@item().name",
 											"type": "Expression"
 										}
 									}
