@@ -14,11 +14,11 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": "Sheet1",
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"container": "test"
-			},
-			"sheetIndex": 1
+			}
 		},
 		"schema": []
 	}
