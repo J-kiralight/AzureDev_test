@@ -1,0 +1,29 @@
+{
+	"name": "DS_Sam_Dept",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SampleAzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Dataflow_ass"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Department ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Sam_Dept"
+		}
+	}
+}
