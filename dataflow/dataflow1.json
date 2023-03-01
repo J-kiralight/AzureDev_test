@@ -1,0 +1,57 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"folder": {
+			"name": "Training_Assignement"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_sample",
+						"type": "DatasetReference"
+					},
+					"name": "SampleFact"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_Sam_Dept",
+						"type": "DatasetReference"
+					},
+					"name": "SampleDept"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "lookup1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Id as integer,",
+				"          Name as string,",
+				"          Age as integer,",
+				"          {Department Id} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SampleFact",
+				"source(output(",
+				"          {Department ID} as integer,",
+				"          Name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SampleDept",
+				"SampleFact, SampleDept lookup(SampleFact@{Department Id} === SampleDept@{Department ID},",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1"
+			]
+		}
+	}
+}
