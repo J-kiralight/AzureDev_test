@@ -6,11 +6,56 @@
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_sample",
+						"type": "DatasetReference"
+					},
+					"name": "SampleFact"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_Sam_Dept",
+						"type": "DatasetReference"
+					},
+					"name": "SamDept"
+				}
+			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          Id as integer,",
+				"          Name as string,",
+				"          Age as integer,",
+				"          {Department Id} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SampleFact",
+				"source(output(",
+				"          {Department ID} as integer,",
+				"          Name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SamDept",
+				"SampleFact, SamDept join(SampleFact@{Department Id} == SamDept@{Department ID},",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 filter(Id == 1) ~> filter1"
 			]
 		}
 	}
