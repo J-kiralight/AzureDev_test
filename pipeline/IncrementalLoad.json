@@ -176,7 +176,7 @@
 					"storedProcedureParameters": {
 						"LastModifiedDate": {
 							"value": {
-								"value": "@activity('ExtractLastLoadDate').output.firstRow.Last_m",
+								"value": "@activity('ExtractLastUpdateDate').output.firstRow.Last_m",
 								"type": "Expression"
 							},
 							"type": "DateTime"
