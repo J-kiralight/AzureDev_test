@@ -38,7 +38,159 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "Select max([LastLoadDate]) as LastLoadDate from tblControl",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "tblControl",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Incremental Extract",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "ExtractLastUpdateDate",
+						"dependencyConditions": [
+							"Completed"
+						]
+					},
+					{
+						"activity": "ExtractLastLoadDate",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "Select * \nfrom tbluser\nwhere Last_m>=\n'@{activity('ExtractLastUpdateDate').output.firstRow.last_m}'\nand Last_m>\n'@{activity('ExtractLastLoadDate').output.firstRow.LastLoadDate}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Name",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "name",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Phone",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "number",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "last_m",
+									"physicalType": "datetime",
+									"scale": 3,
+									"precision": 23
+								},
+								"sink": {
+									"name": "date",
+									"physicalType": "datetime",
+									"scale": 3,
+									"precision": 23
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "sourceTbl",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "destinationTbl",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Update Table Control",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Incremental Extract",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[updateTblControl]",
+					"storedProcedureParameters": {
+						"LastModifiedDate": {
+							"value": {
+								"value": "@activity('ExtractLastLoadDate').output.firstRow.Last_m",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TableName": {
+							"value": "tbluser",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"folder": {
